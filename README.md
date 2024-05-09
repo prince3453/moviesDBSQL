@@ -1,6 +1,6 @@
-# MovieDBSQL SQl query to answer the different type of questions:
+# MovieDBSQL SQl query to answer the different types of questions:
 
-Queries that is used to sortlist and extract the particular data from Database:
+Queries that are used to sort list and extract the particular data from database:
 - SELECT
 - WHERE
 - ORDER BY
@@ -9,3 +9,17 @@ Queries that is used to sortlist and extract the particular data from Database:
 - BETWEEN AND
 - OR AND
 - NULL
+- LIMIT
+- OFFSET (to skip the particular first N rows)
+
+#
+
+Queries to get the numeric maximum, minimum, average
+- MAX
+- AVG
+- MIN
+
+#
+
+To Combine the particular columns data in order to get the average or max or a ny kind of aggeragated function:
+- GROUP BY (but to make sure that the column is in the SELECT clause in order to apply this)
