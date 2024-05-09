@@ -1,4 +1,4 @@
--- Summary analytics (MIN, MAX, AVG, GROUP BY)
+-- Summary analytics (MIN, MAX, AVG, GROUP BY), HAVING, IF, CASE
 
 -- 1. How many movies were released between 2015 and 2022
 SELECT COUNT(*) AS Movie_count 
@@ -17,3 +17,6 @@ FROM movies
 GROUP BY release_year
 ORDER BY release_year DESC;
 
+-- 4. Print profit % for all the movies
+SELECT *, ROUND((revenue-budget)*100/budget,2) AS Profit_Percentage
+FROM financials
