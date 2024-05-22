@@ -1,8 +1,9 @@
 -- Concepts --
+USE moviesdb;
 
 SELECT * FROM movies;
 
-SELECT COUNT(*) As "Total Hollywood Movies" 
+SELECT COUNT(*) As "Total Hollywood Movies" -- Count(*) so * is the arguments in the count 
 FROM movies 
 WHERE industry = "hollywood"; -- case insensitive
 
@@ -14,7 +15,7 @@ WHERE title LIKE '%K.G.F%'; --  wild card search (LIKE)
 
 SELECT * 
 FROM movies
-WHERE imdb_rating>=6 AND tmdb_rating<=8;
+WHERE imdb_rating>=6 AND imdb_rating<=8;
 
 SELECT * 
 FROM movies
@@ -42,15 +43,125 @@ ORDER BY imdb_rating DESC
 LIMIT 5
 OFFSET 2; -- starting from 0 the index means the first two rows will be skipped
 
+-- To get the float number until particular decimal points 
+SELECT ROUND(avg(imdb_rating),2) AS averge_rating,
+	   MIN(imdb_rating) AS min_rating,
+       MAX(imdb_rating) AS max_rating
+FROM movies
+WHERE industry = "bollywood";
+
+ 
+-- GROUP BY 
+SELECT studio,
+		ROUND(AVG(imdb_rating),2) AS avg_rating,
+	    COUNT(studio) AS cnt
+FROM movies
+GROUP BY studio
+ORDER BY cnt DESC;
+
+ -- Execution order : FROM --> Where --> GROUP BY--> HAVING --> ORDER BY
+SELECT release_year,
+	COUNT(*) As movie_count
+FROM movies
+group by release_year
+having movie_count>2
+order by movie_count DESC;
+
+-- curdate to get the current date
+SELECT name, YEAR(CURDATE()) - birth_year as age 
+FROM actors;
+
+SELECT *, (revenue - budget) AS Profit
+FROM financials;
 
 
+SELECT DISTINCT unit from financials;
+
+-- to convert the currency inot one currencymovie_actormovie_actormovie_actormovie_actor
+-- IF(Condition, True, False)
+SELECT *, ROUND(IF(unit="Billions", revenue*1000, IF(unit="Thousands", revenue/1000, revenue)),2) AS revenue_in_million 
+From financials;
 
 
+-- CASE Statment for the Same Query
+SELECT *,
+CASE
+	WHEN unit="Thousands" THEN revenue/1000
+	WHEN unit="Billions" THEN revenue*1000
+    WHEN unit="Millions" THEN revenue
+END AS revenue_mln
+FROM financials;
 
+-- Write SQL queries for the following,
 
+-- 1. Print profit % for all the movies
+SELECT *, ROUND((revenue-budget)*100/budget,2) AS Profit_Percentage
+FROM financials;
 
+SELECT dt.movie_id, dt.title, dt.budget_inr_Millions, dt.revenue_inr_Millions,
+	dt.revenue_inr_Millions - dt.budget_inr_Millions AS Profit
+FROM (SELECT m.movie_id, title,
+	ROUND(CASE 
+     WHEN currency = "USD" and unit = "Billions" THEN budget*83000
+     WHEN currency = "USD" and unit = "Millions" THEN budget*83
+     WHEN currency = "USD" and unit = "Thousands" THEN budget*83/1000
+     WHEN currency = "INR" and unit = "Billions" THEN budget*1000
+     WHEN currency = "INR" and unit = "Thousands" THEN budget/1000
+     ELSE budget 
+	END,2) AS budget_inr_Millions,
+    ROUND(CASE 
+     WHEN currency = "USD" and unit = "Billions" THEN revenue*83000
+     WHEN currency = "USD" and unit = "Millions" THEN revenue*83
+     WHEN currency = "USD" and unit = "Thousands" THEN revenue*83/1000
+     WHEN currency = "INR" and unit = "Billions" THEN revenue*1000
+     WHEN currency = "INR" and unit = "Thousands" THEN revenue/1000
+     ELSE revenue
+	END,2) AS revenue_inr_Millions
+FROM movies m 
+INNER JOIN financials f
+ON m.movie_id = f.movie_id) dt;
 
+-- Making the Full Join on two tables using the union operator
+SELECT m.movie_id, title, budget, revenue
+FROM movies m
+LEFT JOIN financials f
+ON m.movie_id = f.movie_id
+UNION
+SELECT f.movie_id, title, budget, revenue
+FROM movies m
+RIGHT JOIN financials f
+ON m.movie_id = f.movie_id;
 
+-- -------------ADDED FOODDB ONLY FOR THE CROSS JOIN----
+USE food_db;
 
+SELECT CONCAT(v.variant_name, " ", i.name) As item_name,
+	   ROUND(i.price + v.variant_price, 2) AS item_price
+FROM items i
+CROSS JOIN variants v
+ORDER BY item_price;
+-- -----------------------------------------------------
 
+-- One movie have the multiple actor under the same movie
+SELECT 
+    m.title, group_concat(a.name SEPARATOR " | " ) as actors_name
+FROM
+    movies m
+        JOIN
+    movie_actor ma USING (movie_id)
+        JOIN
+    actors a ON ma.actor_id = a.actor_id
+GROUP BY m.movie_id;
 
+-- The actor who have the multiple movie under their name
+SELECT 
+    a.name, group_concat(m.title SEPARATOR " | " ) as movies_name,
+    COUNT(m.title) as movie_count
+FROM
+    movies m
+        JOIN
+    movie_actor ma USING (movie_id)
+        JOIN
+    actors a ON ma.actor_id = a.actor_id
+GROUP BY a.actor_id
+ORDER BY movie_count DESC;
