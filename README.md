@@ -50,3 +50,25 @@ SELECT *,
 FROM financials;
 ```
 
+# JOINS
+
+- INNER (By default)
+- LEFT
+- RIGHT
+- FULL JOIN (Using the UNION keyword we can combine both left and right join)
+
+  
+<img width="1013" alt="Screenshot 2024-05-22 at 1 13 08 PM" src="https://github.com/prince3453/moviesDBSQL/assets/47770221/497118da-8bcc-44fb-bd4f-d89f36924b7e">
+
+```
+SELECT m.movie_id, title, budget, revenue
+FROM movies m
+LEFT JOIN financials f
+ON m.movie_id = f.movie_id
+UNION
+SELECT f.movie_id, title, budget, revenue
+FROM movies m
+RIGHT JOIN financials f
+ON m.movie_id = f.movie_id;
+```
+
