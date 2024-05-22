@@ -83,3 +83,13 @@ LEFT JOIN financials f
 USING (movie_id)
 ```
 
+## CROSS JOIN means taking all the data from one table and given each record joins with the other tables every row.
+```
+USE food_db;
+
+SELECT CONCAT(v.variant_name, " ", i.name) As item_name,
+	   ROUND(i.price + v.variant_price, 2) AS item_price
+FROM items i
+CROSS JOIN variants v
+ORDER BY item_price;
+```
