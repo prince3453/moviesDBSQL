@@ -77,7 +77,7 @@ ON m.movie_id = f.movie_id;
 - We can use the USING clause when there is same name of the column and also we want to apply the join based on more than two columns.
 
 ```
-SELECT m.movie_id, title, budget, revenue
+SELECT movie_id, title, budget, revenue
 FROM movies m
 LEFT JOIN financials f
 USING (movie_id)
