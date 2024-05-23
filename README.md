@@ -93,3 +93,18 @@ FROM items i
 CROSS JOIN variants v
 ORDER BY item_price;
 ```
+
+
+## ANY AND ALL CLAUSE IN WHERE CLAUSE (it is the same as getting the minimum and maximum respectively)
+- ANY : getting the result list and we can get the result which is greater than or less than it or equal to any of them (means the minimum of the list).
+- ALL : getting the result list and we can get the result which is greater than or less than it or equal to all of them (meaning maximum of the list).
+
+```
+-- the imdb_rating should be more than any of the list that we are getting from the subquies
+SELECT * FROM movies 
+WHERE imdb_rating > ANY (select imdb_rating from movies where studio = "Marvel studios");
+
+-- the imdb_rating should be more than all of the list that we are getting from the subquies
+SELECT * FROM movies 
+WHERE imdb_rating > ALL (select imdb_rating from movies where studio = "Marvel studios");
+```
