@@ -108,3 +108,21 @@ WHERE imdb_rating > ANY (select imdb_rating from movies where studio = "Marvel s
 SELECT * FROM movies 
 WHERE imdb_rating > ALL (select imdb_rating from movies where studio = "Marvel studios");
 ```
+
+# Measure the Performance of the Query using EXPLAIN ANALYZE:
+```
+-- movies count by the actor_name using JOINS  
+explain analyze
+SELECT a.name AS Actorname, COUNT(*) as total_movie_by_actor FROM movie_actor ma
+JOIN actors a ON a.actor_id = ma.actor_id
+GROUP BY ma.actor_id
+ORDER BY total_movie_by_actor DESC;
+
+-- movies count by the actor_name using Subqueries
+explain analyze -- to analyze query performance
+SELECT 
+	name,
+    (SELECT count(*) FROM movie_actor WHERE actor_id= actors.actor_id) AS total_movie
+FROM actors 
+ORDER BY total_movie DESC;
+```
