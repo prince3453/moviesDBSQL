@@ -165,3 +165,65 @@ FROM
     actors a ON ma.actor_id = a.actor_id
 GROUP BY a.actor_id
 ORDER BY movie_count DESC;
+
+-- Subqueries
+-- returns single value, multiple value, and table
+SELECT 
+    *
+FROM
+    movies
+WHERE
+    imdb_rating = (SELECT 
+            MAX(imdb_rating)
+        FROM
+            movies);
+
+SELECT 
+    *
+FROM
+    movies
+WHERE
+    imdb_rating IN 
+    ((SELECT 
+            MAX(imdb_rating)
+        FROM
+            movies) , 
+		(SELECT 
+                MIN(imdb_rating)
+            FROM
+                movies));
+
+
+SELECT * 
+FROM 
+(SELECT name,
+	YEAR(curdate())-birth_year as age
+FROM actors) as age_actor_table
+WHERE age>70 and age<85
+;
+
+SELECT * FROM movies 
+WHERE imdb_rating > (select min(imdb_rating) from movies where studio = "Marvel studios");
+
+-- the imdb_rating should be more than any of the list that we are getting from the subquies
+SELECT * FROM movies 
+WHERE imdb_rating > ANY (select imdb_rating from movies where studio = "Marvel studios");
+
+-- the imdb_rating should be more than all of the list that we are getting from the subquies
+SELECT * FROM movies 
+WHERE imdb_rating > ALL (select imdb_rating from movies where studio = "Marvel studios");
+
+-- movies count by the actor_name using JOINS  
+explain analyze
+SELECT a.name AS Actorname, COUNT(*) as total_movie_by_actor FROM movie_actor ma
+JOIN actors a ON a.actor_id = ma.actor_id
+GROUP BY ma.actor_id
+ORDER BY total_movie_by_actor DESC;
+
+-- movies count by the actor_name using Subqueries
+explain analyze -- to analyze query pe rformance
+SELECT 
+	name,
+    (SELECT count(*) FROM movie_actor WHERE actor_id= actors.actor_id) AS total_movie
+FROM actors 
+ORDER BY total_movie DESC;
