@@ -126,3 +126,7 @@ SELECT
 FROM actors 
 ORDER BY total_movie DESC;
 ```
+
+## Benefits of CTES
+- Simple Queries, Query resuability, visibility of Query(views)
+- Recursive subqueries
