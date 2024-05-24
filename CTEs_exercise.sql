@@ -7,13 +7,13 @@ SELECT m.movie_id, m.title, m.release_year, (f.revenue-f.budget) as profit_mln
 FROM movies m
 JOIN financials f
 ON m.movie_id = f.movie_id
-WHERE m.release_year>2000
+WHERE m.release_year>2000 AND m.industry = "Hollywood"
 HAVING profit_mln>500;
 
 -- Using CTE (Common table expression)s
 explain analyze
 WITH movie AS(
-	SELECT * from movies where release_year>2000
+	SELECT * from movies where release_year>2000 AND industry = "Hollywood"
 ),
 financial AS (
 	SELECT *, revenue-budget as profit FROM financials where revenue-budget>500 
