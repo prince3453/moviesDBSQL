@@ -208,3 +208,6 @@ ORDER BY total_movie DESC;
 - reverse engineer —> to update and create the model from the given database
 - Backfilling is the process of adding records in bulk to database
 
+### INSERT, UPDATE, DELETE data statment:
+
+- ```INSERT INTO `moviesdb`.`movies` (`title`, `industry`, `release_year`, `imdb_rating`, `studio`) VALUES ('Bahubali 3', 'Bollywood', 2024, '8.3', 'Arka media');``` 
