@@ -210,4 +210,26 @@ ORDER BY total_movie DESC;
 
 ### INSERT, UPDATE, DELETE data statment:
 
-- ```INSERT INTO `moviesdb`.`movies` (`title`, `industry`, `release_year`, `imdb_rating`, `studio`) VALUES ('Bahubali 3', 'Bollywood', 2024, '8.3', 'Arka media');``` 
+- ```INSERT INTO `moviesdb`.`movies` (`title`, `industry`, `release_year`, `imdb_rating`, `studio`) VALUES ('Bahubali 3', 'Bollywood', 2024, '8.3', 'Arka media');```
+- updating single rows using moive_id
+```
+UPDATE movies
+SET studio = "Marvel Studios"
+WHERE movie_id =141;
+```
+- updating multiple rows using LIKE
+```
+UPDATE movies
+SET studio = "Marvel Studios"
+WHERE title LIKE "%Captain%";
+```
+- deleting the rows
+```
+DELETE FROM movies where movie_id=141;
+```
+
+- delete the table
+```
+DROP TABLE movies; -- to delete the table
+DROP SCHEMA moviesDB; -- to delete the Database
+```
