@@ -130,3 +130,66 @@ ORDER BY total_movie DESC;
 ## Benefits of CTES
 - Simple Queries, Query resuability, visibility of Query(views)
 - Recursive subqueries
+
+
+# Database design phases
+- Cocneptual design
+- ER diagram
+- Database schema
+
+### database fallback
+- put everything in one table like two actor in one table: then what if we can get third actor and so on —> it is not that much flexible
+
+- what if we put the data in the row manner like two data row for two actor and three actor have three column —> Data becomes redundant or duplication
+
+- Data integrity - data inconsistence (like we are updating the row but forget to update in the other row, we are not changing everytwhere so, it can be used
+    - Data integrity is accuracy and consistency of data over its life cycle.
+
+![movies](https://github.com/prince3453/moviesDBSQL/assets/47770221/c9511cb7-ea7b-4d98-88d9-a6cb9025d2bf)
+
+### Solution for this is Data model or Normalization:
+
+- Normalization : It is a process of oraganizing the database in order to maintain the data integrity and avoid data duplication Example: 1NF, 2NF, 3NF
+- Link table : it is between the two table relations
+- So there might be some column which has no data like in our case the movie dont have the budget and revenue
+- Space optimization like in our case is language so we dont have to mentioned about the english everytime
+
+# Data Types:
+- Numeric
+- String
+- Date/time
+- other
+
+## Numeric
+- Whole Numbers - Integer (signed means it is contains negative as well, unsigned will be only positive no negative)
+	- TINYINT (Signed and unsigned)
+	- SMALLINT
+	- MEDIUMINT
+	- INT
+	- BIGINT		
+-  Number with Decimal point - floating point
+        - Float : 4 bytes
+        - Double : 8 bytes
+        - DECIMAL(X,Y) : X - total number of the digit, Y - the number after the decimal
+
+![DECIMAL](https://github.com/prince3453/moviesDBSQL/assets/47770221/2b706999-4dd0-4976-bfe4-58d8e0a71b23)
+
+## String
+- Fixed length (CHAR(3)) —> If the field has 2 char then it will pad one space at the end
+  	- example: CHAR(150) : it is always uses 150 character no matter what is the size of the column
+- Variable length
+  	- VARCHAR(150) : it is use mostly but until 150 character if the column has name with 4 char then it will only use 4 character
+- ENUM —> we know the minimum field for that and we can use from those fields just like the dropdown menu in any of the form
+
+## Date/Time:
+ -  DATETIME (yyyy mm dd hh:mm:ss)
+ -  TIMESTAMP (to get the latest update and if we update hte new data then it will automatically add that in the field)
+
+## Other Datatype:
+ - Other DType:
+    - features : Key/value pair (JSON DTYPE)
+        - how to get that in the datatype:
+            - SELECT * FROM items where properties->”$.color” = “blue”;
+            - SELECT * FROM items where JSON_EXTRACT(properties,”$.color”) = “blue”; — alternative of that
+            - SELECT * FROM items where isnull(properties->”$.color”); — when there is not the column available 
+    - Spatial data for the geomatry data Like line, Point,polygon:
