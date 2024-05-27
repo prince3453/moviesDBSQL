@@ -193,3 +193,18 @@ ORDER BY total_movie DESC;
             - SELECT * FROM items where JSON_EXTRACT(properties,”$.color”) = “blue”; — alternative of that
             - SELECT * FROM items where isnull(properties->”$.color”); — when there is not the column available 
     - Spatial data for the geomatry data Like line, Point,polygon:
+  
+
+# Models and important things about models
+- Primary key
+    - Natural key : IT is a part of data
+    - surrogate key : it is artificial key, we are generating
+    - composite key : it is a collection of the database which is used as an primary key, and also it is a natrual key
+- Foriegn key
+    - non-identifiable key : the foriegn key is not the primary key in that table
+    - identifiable key : the foreign key is the primary key in that table
+
+- Forward engineer —> to create the database from the model of the database
+- reverse engineer —> to update and create the model from the given database
+- Backfilling is the process of adding records in bulk to database
+
