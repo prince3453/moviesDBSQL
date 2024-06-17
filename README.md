@@ -276,3 +276,31 @@ ON pid.customer_code = sc.customer_code AND pid.fiscal_year = sc.fiscal_year
 WHERE sc.fiscal_year = 2021
 ORDER BY sc.date ASC;
 ```
+
+
+# views
+
+- This is a virtual table just like the physical table but it will be useful during the complex execution
+- The view is the same as the CTE but CTE is temporary and views are permanent we can use it just as a table.
+
+### Benefits of views
+
+ 1.  Simplify quieres
+ 2.  Central place to store logic
+ 3.  User access control
+
+```
+CREATE VIEW sales_invoice_prediscount AS
+SELECT
+	   sc.date,sc.product_code, dp.product, dp.variant, sc.sold_quantity, gp.gross_price,
+       ROUND(sc.sold_quantity * gp.gross_price,2) as gross_total_price, pid.pre_invoice_discount_pct
+FROM fact_sales_monthly sc
+INNER JOIN dim_product dp
+ON sc.product_code = dp.product_code
+INNER JOIN fact_gross_price gp
+ON gp.product_code = sc.product_code AND gp.fiscal_year = sc.fiscal_year
+INNER JOIN fact_pre_invoice_deductions pid
+ON pid.customer_code = sc.customer_code AND pid.fiscal_year = sc.fiscal_year
+WHERE sc.fiscal_year = 2021
+ORDER BY sc.date ASC
+```
