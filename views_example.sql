@@ -53,3 +53,25 @@ VIEW `sales_preinvoice_discount` AS
 SELECT *, 
 		ROUND((gross_total_price - gross_total_price*pre_invoice_discount_pct),2) as net_invoice_sales
  FROM sales_preinvoice_discount;
+
+
+--Post_invoicediscount sales means for the netsales view
+SELECT *, 
+		ROUND((gross_total_price - gross_total_price*pre_invoice_discount_pct),2) as net_invoice_sales,
+        (fpd.discounts_pct + fpd.other_deductions_pct) as post_invoice_pct
+ FROM sales_preinvoice_discount spd
+ INNER JOIN fact_post_invoice_deductions fpd
+ ON spd.product_code = fpd.product_code 
+ AND spd.customer_code = fpd.customer_code
+ AND spd.date = fpd.date;
+
+-- after view it is as following
+SELECT *,
+		ROUND((1-post_invoice_pct)*net_invoice_sales,2) as net_sales
+FROM sales_postinvoice_discount
+
+-- we are creating the view for the same hence at the end we have the netsales as following
+SELECT *
+FROM net_sales
+
+
