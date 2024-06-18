@@ -308,7 +308,7 @@ ORDER BY sc.date ASC
 
 # Window function
 
-- Over Clause : To do the comparison between certain rows and with all rows
+- Over Clause: To do the comparison between certain rows and with all rows
 
 ```
 WITH CTE AS (
@@ -323,3 +323,9 @@ ORDER BY region
 SELECT *, net_sales_mln*100/sum(net_sales_mln) over(partition by region) as pct_by_region  FROM CTE
 ORDER BY region,pct_by_region DESC;
 ```
+
+
+All of the following window functions are used with over() clause
+- row_number: to get the number of the row by partition means by window
+- rank(): it will give the rank to the category that has the same value and skip the next number according to the occurrence of the previous number
+- dense_rank(): it will use just the same as rank but it will give true rank means it will not skip any number.
