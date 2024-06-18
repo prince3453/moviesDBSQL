@@ -329,3 +329,28 @@ All of the following window functions are used with over() clause
 - row_number: to get the number of the row by partition means by window
 - rank(): it will give the rank to the category that has the same value and skip the next number according to the occurrence of the previous number
 - dense_rank(): it will use just the same as rank but it will give true rank means it will not skip any number.
+
+```
+-- To get the top 2 highest selling amount of restaurant from the each of the category
+
+WITH cte AS (select *,
+		row_number() over(partition by category) as rn,
+        rank() over(partition by category order by amount desc) as rnk,
+        dense_rank() over(partition by category order by amount desc) as drnk
+From expenses)
+SELECT * FROM CTE
+WHERE drnk<=2;
+```
+
+```
+-- To get the first 5 person from the class who got the highest marks and we can have multiple students at the same position
+WITH Cte AS(
+SELECT *,
+		row_number() over(order by marks desc) as rn,
+        rank() over(order by marks desc) as rnk,
+        dense_rank() over(order by marks desc) as drnk
+FROM student_marks
+) 
+SELECT * FROM 
+Cte WHERE drnk<=5
+```
