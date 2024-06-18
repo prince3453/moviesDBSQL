@@ -304,3 +304,22 @@ ON pid.customer_code = sc.customer_code AND pid.fiscal_year = sc.fiscal_year
 WHERE sc.fiscal_year = 2021
 ORDER BY sc.date ASC
 ```
+
+
+# Window function
+
+- Over Clause : To do the comparison between certain rows and with all rows
+
+```
+WITH CTE AS (
+select ns.customer, ROUND(SUM(net_sales)/1000000,2) as net_sales_mln, dc.region 
+FROM net_sales ns
+INNER JOIN dim_customer dc
+ON dc.customer_code = ns.customer_code
+WHERE fiscal_year = 2021 
+GROUP BY customer,region
+ORDER BY region 
+)
+SELECT *, net_sales_mln*100/sum(net_sales_mln) over(partition by region) as pct_by_region  FROM CTE
+ORDER BY region,pct_by_region DESC;
+```
