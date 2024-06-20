@@ -382,4 +382,39 @@ Cte WHERE drnk<=5
   
 # Events
 
-- It is the thing that we can use during everyday tasks just like a cronjob where we need to update the data every day at 5 AM suppose in the morning, suppose we want to run the ETL pipeline every day at 2 PM after udpation of the pipeline.
+- It is the thing that we can use during everyday tasks just like a cronjob where we need to update the data every day at 5 AM suppose in the morning, suppose we want to run the ETL pipeline every day at 2 PM after the udpation of the pipeline.
+
+```
+-- to show the available events
+
+show events
+
+-- To check if we can do the event then we need to check that event_schedular is ON
+
+show variables like "%event%"
+
+show events
+```
+
+```
+-- Example of the creation of the events, it will delete all the records that are from 1 month old and it will run at every 5 second
+
+delimiter |
+create event e_daily_expese_monthly
+on schedule 
+	every 5 second
+	    comment "removed the expenses that are 1 month old."
+	    do
+	    begin
+			delete from random_tables.expenses
+			where DATE(date) < DATE("2022-10-25") - interval 1 month - interval 1 week;
+	    END |
+delimiter ;
+```
+
+```
+-- To drop an event from the list
+
+drop event if exists e_daily_expese_monthly
+```
+
