@@ -354,3 +354,28 @@ FROM student_marks
 SELECT * FROM 
 Cte WHERE drnk<=5
 ```
+
+# Triggers
+
+- Triggers are used when we are adding the data into the table and we want to update the other table. E.g. when we are doing the join on the sales table for accuracy and want to add that into the another table for the actual accuracy and forecast accuracy
+  ```
+  -- it helps us to know how many triggers we have to know which trigger will work during the insertion or updation of the data.
+  
+  Show triggers
+
+  --Create the trigger after inserting the data into the table
+
+  CREATE TRIGGER `fact_sales_monthly_AFTER_INSERT` AFTER INSERT ON `fact_sales_monthly` FOR EACH ROW BEGIN
+    insert into fact_act_est
+    	(date, product_code, customer_code, sold_quantity)
+    values
+    (
+	NEW.date,
+        NEW.product_code,
+        NEW.customer_code,
+        NEw.sold_quantity
+    )
+    on duplicate key update
+     sold_quantity = values(sold_quantity); -- it will be update if there is already a same key available with the primary key
+END
+  ```
