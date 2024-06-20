@@ -376,6 +376,10 @@ Cte WHERE drnk<=5
         NEw.sold_quantity
     )
     on duplicate key update
-     sold_quantity = values(sold_quantity); -- it will be update if there is already a same key available with the primary key
-END
+     sold_quantity = values(sold_quantity); -- it will be updated if there is already the same key available with the primary key
+    END
   ```
+  
+# Events
+
+- It is the thing that we can use during everyday tasks just like a cronjob where we need to update the data every day at 5 AM suppose in the morning, suppose we want to run the ETL pipeline every day at 2 PM after udpation of the pipeline.
