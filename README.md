@@ -473,3 +473,9 @@ create temporary table forecast_accuracy_2021
 ALTER TABLE `random_tables`.`fact_actual_table` 
 ADD INDEX `ix_fyear` (`fiscal_year` ASC) VISIBLE;
 ```
+
+```
+-- it gives us the all the indexes on the table
+
+Show indexes random_tables.fact_actual_table
+```
