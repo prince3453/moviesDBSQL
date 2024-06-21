@@ -462,3 +462,14 @@ create temporary table forecast_accuracy_2021
 ![Screenshot 2024-06-21 at 3 00 44 PM](https://github.com/prince3453/moviesDBSQL/assets/47770221/4cdb4f66-c338-4adc-b10d-5b39c10cb236)
 
 
+# Accounts and privileges:
+- show grants for 'username'
+- add using the administration and also add a new account and then add the database for which we have to give permission ad what type of permission we will give to that user.
+
+# Indexes in the table:
+- to sort the record according to the dictionary like if we want the data for the fiscal year 2020 then it will do the table scan for the entire table and then it will give us the result but it will be faster using the indexes as we are creating the dictionary for that.
+
+```
+ALTER TABLE `random_tables`.`fact_actual_table` 
+ADD INDEX `ix_fyear` (`fiscal_year` ASC) VISIBLE;
+```
