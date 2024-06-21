@@ -479,3 +479,21 @@ ADD INDEX `ix_fyear` (`fiscal_year` ASC) VISIBLE;
 
 Show indexes random_tables.fact_actual_table
 ```
+
+# COMPOSITE Indexes:
+- when we give the index instead of more than 1 column it is based on the order where we are searching that
+
+## Types of Indexes:
+
+- PRIMARY INDEX
+- COMPOSITE INDEx
+- UNIQUE INDEX
+- REGULAR OR INDEX
+- FULLTEXT INDEX (when we want to search it using the like some of the keywords in the description)
+  ```
+  -- After applying the fulltext index to the description we can search it like this
+  SELECT * FROM film
+  WHERE match(description) against ("car boat")
+
+  WHERE match(description) against ("car -boat" in boolean mode)
+  ```
