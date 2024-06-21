@@ -450,4 +450,15 @@ create temporary table forecast_accuracy_2021
 	order by forecast_accuracy desc
 )
 ```
-- And now we can use it as general table but within the session not after words.
+- And now we can use it as a general table but within the session not after words.
+
+
+# Diffference between CTEs and Subqueries
+![Screenshot 2024-06-21 at 2 57 01 PM](https://github.com/prince3453/moviesDBSQL/assets/47770221/31eec8d6-8bcb-44b7-b1c1-03489cd8c3d8)
+
+
+
+# Diffference between CTEs, Temporary tables, Views, and Subqueries
+![Screenshot 2024-06-21 at 3 00 44 PM](https://github.com/prince3453/moviesDBSQL/assets/47770221/4cdb4f66-c338-4adc-b10d-5b39c10cb236)
+
+
